@@ -10,6 +10,10 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Backend is running successfully 🚀");
+});
+
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/transactions", require("./routes/transaction"));
 
