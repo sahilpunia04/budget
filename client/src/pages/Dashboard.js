@@ -10,70 +10,52 @@ export default function Dashboard() {
     category: "",
   });
 
-  // Fetch data on load
   useEffect(() => {
     fetchTransactions();
   }, []);
 
   const fetchTransactions = async () => {
-    try {
-      const res = await API.get("/transactions");
-      setTransactions(res.data);
-    } catch {
-      alert("Error fetching data");
-    }
+    const res = await API.get("/transactions");
+    setTransactions(res.data);
   };
 
-  // Add transaction
   const addTransaction = async () => {
-    if (!form.amount || !form.category) {
-      return alert("Fill all fields");
-    }
-
-    try {
-      await API.post("/transactions", form);
-      setForm({ type: "expense", amount: "", category: "" });
-      fetchTransactions(); // refresh list
-    } catch {
-      alert("Error adding transaction");
-    }
+    await API.post("/transactions", form);
+    setForm({ type: "expense", amount: "", category: "" });
+    fetchTransactions();
   };
 
-  // Calculate balance
+  const deleteTransaction = async (id) => {
+    await API.delete(`/transactions/${id}`);
+    fetchTransactions();
+  };
+
   const income = transactions
     .filter((t) => t.type === "income")
-    .reduce((acc, curr) => acc + curr.amount, 0);
+    .reduce((a, b) => a + b.amount, 0);
 
   const expense = transactions
     .filter((t) => t.type === "expense")
-    .reduce((acc, curr) => acc + curr.amount, 0);
-
-  const balance = income - expense;
+    .reduce((a, b) => a + b.amount, 0);
 
   return (
     <div>
-      {/* Navbar */}
       <Navbar />
 
       <div className="container">
-        {/* Balance Section */}
         <h2>Dashboard</h2>
 
-        <div className="card">
-          <h3>Balance: ₹{balance}</h3>
-          <p>Income: ₹{income}</p>
-          <p>Expense: ₹{expense}</p>
-        </div>
+        {/* Cards */}
+        <div className="card balance">Balance: ₹{income - expense}</div>
+        <div className="card income">Income: ₹{income}</div>
+        <div className="card expense">Expense: ₹{expense}</div>
 
-        {/* Add Transaction Form */}
-        <div className="card">
+        {/* Form */}
+        <div className="card" style={{ color: "black" }}>
           <h3>Add Transaction</h3>
 
           <select
-            value={form.type}
-            onChange={(e) =>
-              setForm({ ...form, type: e.target.value })
-            }
+            onChange={(e) => setForm({ ...form, type: e.target.value })}
           >
             <option value="expense">Expense</option>
             <option value="income">Income</option>
@@ -82,39 +64,28 @@ export default function Dashboard() {
           <input
             type="number"
             placeholder="Amount"
-            value={form.amount}
             onChange={(e) =>
               setForm({ ...form, amount: Number(e.target.value) })
             }
           />
 
           <input
-            placeholder="Category (Food, Rent, Salary...)"
-            value={form.category}
+            placeholder="Category"
             onChange={(e) =>
               setForm({ ...form, category: e.target.value })
             }
           />
 
-          <button onClick={addTransaction}>
-            Add
-          </button>
+          <button onClick={addTransaction}>Add</button>
         </div>
 
-        {/* Transaction List */}
-        <h3>Your Transactions</h3>
-
-        {transactions.length === 0 ? (
-          <p>No transactions yet</p>
-        ) : (
-          transactions.map((t) => (
-            <div key={t._id} className="card">
-              <strong>{t.type.toUpperCase()}</strong>
-              <p>₹{t.amount}</p>
-              <small>{t.category}</small>
-            </div>
-          ))
-        )}
+        {/* List */}
+        {transactions.map((t) => (
+          <div key={t._id} className="card" style={{ color: "black" }}>
+            {t.type} - ₹{t.amount} ({t.category})
+            <button onClick={() => deleteTransaction(t._id)}>Delete</button>
+          </div>
+        ))}
       </div>
     </div>
   );

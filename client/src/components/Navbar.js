@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Navbar.css";
+import { ThemeContext } from "../context/ThemeContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-  };
+  const { toggleTheme } = useContext(ThemeContext);
 
   return (
-    <div className="navbar">
-      <h2 className="logo">💰 BudgetPro</h2>
+    <div className="card" style={{ display: "flex", justifyContent: "space-between" }}>
+      <h3>💰 BudgetPro</h3>
 
-      <div className="nav-links">
+      <div>
         <button onClick={() => navigate("/dashboard")}>Dashboard</button>
-        <button onClick={logout} className="logout">Logout</button>
+        <button onClick={() => navigate("/analytics")}>Analytics</button>
+        <button onClick={() => navigate("/transactions")}>Transactions</button>
+        <button onClick={() => navigate("/budget")}>Budget</button>
+        <button onClick={() => navigate("/finance")}>Finance</button>
+        <button onClick={() => navigate("/cards")}>Cards</button>
+        <button onClick={() => navigate("/profile")}>Profile</button>
+        <button onClick={toggleTheme}>🌙</button>
       </div>
     </div>
   );

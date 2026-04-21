@@ -1,33 +1,12 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(135deg, #6c63ff, #5a54e8);
+  background: #6c63ff;
+  padding: 15px;
   color: white;
-  padding: 15px 30px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.nav-links button {
+.navbar button {
   margin-left: 10px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.nav-links button:hover {
-  opacity: 0.85;
-}
-
-.logout {
-  background: #ff4d4d;
-  color: white;
+  padding: 6px 10px;
 }
