@@ -21,14 +21,13 @@ export default function Finance() {
     if (!form.name || !form.amount) return;
 
     setRecords((prev) => [...prev, form]);
-
     setForm({ type: "Loan Given", name: "", amount: "" });
   };
 
-  const total = (type) =>
-    records
-      .filter((r) => r.type === type)
-      .reduce((a, b) => a + Number(b.amount), 0);
+  // ✅ DELETE FUNCTION
+  const deleteRecord = (index) => {
+    setRecords((prev) => prev.filter((_, i) => i !== index));
+  };
 
   return (
     <div>
@@ -36,13 +35,6 @@ export default function Finance() {
 
       <div className="container">
         <h2>Finance</h2>
-
-        <div className="card">
-          <p>Loan Given: ₹{total("Loan Given")}</p>
-          <p>Loan Taken: ₹{total("Loan Taken")}</p>
-          <p>FD: ₹{total("Fixed Deposit")}</p>
-          <p>Stocks: ₹{total("Stocks")}</p>
-        </div>
 
         <select
           value={form.type}
@@ -72,6 +64,7 @@ export default function Finance() {
         {records.map((r, i) => (
           <div key={i} className="card">
             {r.type} - {r.name} - ₹{r.amount}
+            <button onClick={() => deleteRecord(i)}>Delete</button>
           </div>
         ))}
       </div>

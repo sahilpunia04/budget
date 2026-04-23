@@ -20,14 +20,15 @@ export default function Budget() {
     if (!form.category || !form.amount) return;
 
     setBudgets((prev) => [...prev, form]);
-
     setForm({ category: "", amount: "" });
   };
 
-  const total = budgets.reduce(
-    (a, b) => a + Number(b.amount),
-    0
-  );
+  // ✅ DELETE
+  const deleteBudget = (index) => {
+    setBudgets((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const total = budgets.reduce((a, b) => a + Number(b.amount), 0);
 
   return (
     <div>
@@ -62,6 +63,7 @@ export default function Budget() {
         {budgets.map((b, i) => (
           <div key={i} className="card">
             {b.category} - ₹{b.amount}
+            <button onClick={() => deleteBudget(i)}>Delete</button>
           </div>
         ))}
       </div>

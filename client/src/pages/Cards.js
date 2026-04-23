@@ -22,8 +22,12 @@ export default function Cards() {
     if (!form.bank || !form.limit) return;
 
     setCards((prev) => [...prev, form]);
-
     setForm({ bank: "", type: "Debit", expiry: "", limit: "" });
+  };
+
+  // ✅ DELETE
+  const deleteCard = (index) => {
+    setCards((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -65,6 +69,7 @@ export default function Cards() {
         {cards.map((c, i) => (
           <div key={i} className="card">
             {c.bank} ({c.type}) - Exp: {c.expiry} - ₹{c.limit}
+            <button onClick={() => deleteCard(i)}>Delete</button>
           </div>
         ))}
       </div>
