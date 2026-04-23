@@ -1,40 +1,86 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import "./Login.css";
 
 export default function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(true);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = async () => {
+  const handleSubmit = async () => {
     try {
-      const res = await API.post("/auth/login", form);
+      const url = isLogin ? "/auth/login" : "/auth/register";
+
+      const res = await API.post(url, form);
+
       localStorage.setItem("token", res.data.token);
-      window.location = "/dashboard";
+      alert("Success!");
+      window.location.href = "/dashboard";
     } catch (err) {
-      alert("Login failed");
+      alert("Error: " + (err.response?.data?.message || "Something went wrong"));
     }
   };
 
   return (
-    <div className="container">
-      <h2>Login</h2>
+    <div className="login-container">
+      <div className="login-card">
 
-      <input
-        placeholder="Email"
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
+        {/* 🔥 HEADER */}
+        <div className="login-header">
+          <h1>Budgeting App 💰</h1>
+          <p>Manage your money smarter, faster & easier</p>
+        </div>
 
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
-      <p onClick={() => navigate("/register")}>
-      Don't have an account? Register
-     </p>
+        {/* 🔁 TOGGLE */}
+        <div className="toggle">
+          <button
+            className={isLogin ? "active" : ""}
+            onClick={() => setIsLogin(true)}
+          >
+            Login
+          </button>
+          <button
+            className={!isLogin ? "active" : ""}
+            onClick={() => setIsLogin(false)}
+          >
+            Register
+          </button>
+        </div>
 
-      <button onClick={handleLogin}>Login</button>
+        {/* 🧾 FORM */}
+        {!isLogin && (
+          <input
+            placeholder="Full Name"
+            onChange={(e) =>
+              setForm({ ...form, name: e.target.value })
+            }
+          />
+        )}
+
+        <input
+          placeholder="Email"
+          onChange={(e) =>
+            setForm({ ...form, email: e.target.value })
+          }
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={(e) =>
+            setForm({ ...form, password: e.target.value })
+          }
+        />
+
+        {/* 🔘 BUTTON */}
+        <button className="submit-btn" onClick={handleSubmit}>
+          {isLogin ? "Login" : "Create Account"}
+        </button>
+
+      </div>
     </div>
   );
 }

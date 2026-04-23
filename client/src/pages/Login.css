@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* 🌈 BACKGROUND */
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+/* 📦 CARD */
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  width: 350px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* 🔥 HEADER */
+.login-header h1 {
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.login-header p {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+/* 🔁 TOGGLE */
+.toggle {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.toggle button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  background: #eee;
+}
+
+.toggle .active {
+  background: #4facfe;
+  color: white;
+}
+
+/* 🧾 INPUTS */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* 🔘 BUTTON */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #4facfe;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #007bff;
+}
